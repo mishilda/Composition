@@ -33,11 +33,6 @@ class GameFinishFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        requireActivity().onBackPressedDispatcher.addCallback( object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                retryGame()
-//            }
-//        })
         binding.buttonRetry.setOnClickListener {
             retryGame()
         }
@@ -49,7 +44,9 @@ class GameFinishFragment: Fragment() {
     }
 
     private fun parseArgs() {
-        gameResult = requireArguments().getSerializable(KEY_GAME_RESULT, ) as GameResult
+        requireArguments().getParcelable<GameResult>(KEY_GAME_RESULT)?.let {
+            gameResult = it
+        }
     }
 
     private fun retryGame() {
@@ -63,7 +60,7 @@ class GameFinishFragment: Fragment() {
         fun newInstance(gameResult: GameResult): GameFinishFragment {
             return GameFinishFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(KEY_GAME_RESULT, gameResult)
+                    putParcelable(KEY_GAME_RESULT, gameResult)
                 }
             }
         }
